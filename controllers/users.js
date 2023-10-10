@@ -6,6 +6,14 @@ usersRouter.get("/", async (request, response) => {
   const users = await User.find({}).populate("blogs");
   response.json(users);
 });
+usersRouter.get("/:id", async (request, response) => {
+  const user = await User.findById(request.params.id);
+  if (user) {
+    response.json(user);
+  } else {
+    response.status(404).send({ error: "Wrong ID" });
+  }
+});
 
 usersRouter.post("/", async (request, response) => {
   const { username, name, password } = request.body;
